@@ -116,7 +116,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -147,6 +147,365 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/09/02/jar%E5%8C%85%E6%89%93%E5%8C%85%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/09/02/jar%E5%8C%85%E6%89%93%E5%8C%85%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">jar包打包使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-02 00:22:38" itemprop="dateCreated datePublished" datetime="2021-09-02T00:22:38+08:00">2021-09-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="IDEA打包及使用jar包"><a href="#IDEA打包及使用jar包" class="headerlink" title="IDEA打包及使用jar包"></a>IDEA打包及使用jar包</h1><h2 id="1-需求场景"><a href="#1-需求场景" class="headerlink" title="1. 需求场景"></a>1. 需求场景</h2><ol>
+<li>将某个功能以可执行方式开放出去：以java -jar jarname</li>
+<li>将某些功能以SDK方式供集成者使用</li>
+</ol>
+<h2 id="2-jar包生成手段"><a href="#2-jar包生成手段" class="headerlink" title="2. jar包生成手段"></a>2. jar包生成手段</h2><h3 id="2-1-所有依赖包都打在一个jar包中"><a href="#2-1-所有依赖包都打在一个jar包中" class="headerlink" title="2.1 所有依赖包都打在一个jar包中"></a>2.1 所有依赖包都打在一个jar包中</h3><ul>
+<li><p>创建artifact： Ctrl + Alt + Shift + S进入Project Structure –&gt; Artifacts–&gt; 选择+ –&gt;<strong>extract to the target JAR</strong> –&gt; 选择OK</p>
+</li>
+<li><p>生成artifact：标题栏选择Build –&gt; Build Artifacts… –&gt; build生成</p>
+<p>生成后请在classes/artifacts/目录下查看</p>
+</li>
+</ul>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152824774.png" alt="image-20210901152824774"></p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152300721.png" alt="image-20210901152300721"></p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152054489.png" alt="image-20210901152054489"></p>
+<h3 id="2-2-所有依赖包单独出现在打出来的文件夹中"><a href="#2-2-所有依赖包单独出现在打出来的文件夹中" class="headerlink" title="2.2 所有依赖包单独出现在打出来的文件夹中"></a>2.2 所有依赖包单独出现在打出来的文件夹中</h3><ul>
+<li><p>创建artifact： Ctrl + Alt + Shift + S进入Project Structure –&gt; Artifacts–&gt; 选择+ –&gt;<strong>copy to the output directory and link via manifest</strong> –&gt; 选择OK</p>
+</li>
+<li><p>生成artifact：标题栏选择Build –&gt; Build Artifacts… –&gt; build生成</p>
+<p>生成后请在classes/artifacts/目录下查看</p>
+</li>
+</ul>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152922483.png" alt="image-20210901152922483"></p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152314159.png" alt="image-20210901152314159"></p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152042500.png" alt="image-20210901152042500"></p>
+<h2 id="3-jar包使用方式"><a href="#3-jar包使用方式" class="headerlink" title="3. jar包使用方式"></a>3. jar包使用方式</h2><h4 id="3-1-直接执行方式"><a href="#3-1-直接执行方式" class="headerlink" title="3.1 直接执行方式"></a>3.1 直接执行方式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jarName [args]</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-依赖方式使用"><a href="#3-2-依赖方式使用" class="headerlink" title="3.2 依赖方式使用"></a>3.2 依赖方式使用</h4><ol>
+<li><p>通过IDEA 工具手动添加</p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901153933895.png" alt="image-20210901153933895"></p>
+</li>
+<li><p>通过pom添加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.test<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>	// 这些名字可以自取</span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>signutil<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>system<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">systemPath</span>&gt;</span>$&#123;project.basedir&#125;/lib/serverdemo.jar<span class="tag">&lt;/<span class="name">systemPath</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><h4 id="4-1-MANIFEST异常"><a href="#4-1-MANIFEST异常" class="headerlink" title="4.1 MANIFEST异常"></a>4.1 MANIFEST异常</h4><p>问题：报如下图异常时</p>
+<p>解决方式：直接删除对应位置的MANIFEST.MF文件后，重新新增即可.</p>
+<p><img src="C:\Users\y00452957\AppData\Roaming\Typora\typora-user-images\image-20210901152521231.png" alt="image-20210901152521231"></p>
+<h3 id="4-2-引用时异常"><a href="#4-2-引用时异常" class="headerlink" title="4.2 引用时异常"></a>4.2 引用时异常</h3><p>问题：报如下异常时 – java.lang.SecurityException: Invalid signature file digest for Manifest main attribute</p>
+<p>解决方式：打开jar包，删除对应的*.RSA，*.SF等文件即可</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/08/31/2divide_conquer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/08/31/2divide_conquer/" class="post-title-link" itemprop="url">分治思想</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-31 16:52:00" itemprop="dateCreated datePublished" datetime="2021-08-31T16:52:00+08:00">2021-08-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-09-02 00:58:44" itemprop="dateModified" datetime="2021-09-02T00:58:44+08:00">2021-09-02</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h1><h2 id="理论"><a href="#理论" class="headerlink" title="理论"></a><strong>理论</strong></h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a><strong>基本概念</strong></h3><p>分治，字面意思：分而治之，divide and conquer。就是一个把复杂问题分成两个或更多相同或相似子问题，再把子问题分成更小的子问题，直到最后子问题可以简单直接求解，原问题的解就是子问题的解的合并。</p>
+<p><strong>分（Divide）</strong>：分治思想的核心，如何将问题分解为子问题。</p>
+<p><strong>治 （Conquer)</strong> ：将所有子问题合并，求出原问题的解。</p>
+<p>从计算机原理出发，任何一个问题用计算机求解，其求解速度总是与问题规模相关。问题规模越小，越容易直接求解，解题所需的时间也越少。</p>
+<p><strong>最优子结构</strong>：如果不能利用子问题的最优解获得整个问题的最优解，那么这种问题就不具有最优子结构。</p>
+<p><strong>分治与递归的联系与区别</strong></p>
+<p><em>联系</em>：递归与分治都是将原问题分解为小问题，直到分解的小问题可以直接解决为止。分治思想经常用到递归结构，是分治思想应用最多的一种程序结构，但是<strong>分治不一定必须使用递归</strong>！</p>
+<p><em>区别</em>：递归强调在分解到可以解决的子问题后就<em>回归</em>，回归解决上一层子问题，直到原问题最终解决。分治则是在将子问题分解到最小可解决子问题后，再将子问题的解合并后得到原问题的答案。</p>
+<h3 id="思想策略"><a href="#思想策略" class="headerlink" title="思想策略"></a>思想策略</h3><p>对于一个规模为n的问题，若该问题可以容易地解决（n较小）则直接解决，否则将其分解为k个规模较小的子问题，这些子问题间相互独立且与原问题形式相同，递归地解这些子问题，然后将子问题合并得到原问题的解。</p>
+<p>如果原问题可以分割为k个子问题，1&lt;k&lt;=n，且这些子问题都可解并可利用这些子问题的解求出原问题的解，那么这种分治法就是可行的。由分治法产生的子问题往往是原问题的较小模式，这就为使用递归技术提供了方便。这种情况下，反复使用分治手段，使得原问题规模不断变小，最终缩小到可以较容易求解的程度。（一般使用递归方式实现，分治与递归像是一堆孪生兄弟，经常同时应用在算法与设计中，并由此产生了很多高效算法。）</p>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><ol>
+<li>该问题缩小到一定规模就可以很容易解决</li>
+<li>该问题可以分解为若干个规模较小的相同问题</li>
+<li>利用该问题分解出的子问题的解可以合并为该问题的解，即该问题具有最优子结构性质</li>
+<li>该问题所分解出的各个子问题是相互独立的，即子问题间不包含子子问题</li>
+</ol>
+<p>其中第3条，问题是否具有最优子结构是关键。第4条影响分治的效率，如果各子问题是非独立的，则分治法需要做很多不必要的工作，重复解子问题，一般用动态规划较好。</p>
+<h3 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h3><ol>
+<li>分解子问题：将原问题分解为规模较小，相互独立，与原问题形式相同的子问题</li>
+<li>解决子问题：若子问题规模较小则直接解决，否则低估地解各个子问题</li>
+<li>合并子问题：将子问题的解合并得到原问题的解</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">divideAndConquer(P)&#123;</span><br><span class="line">	if |P| &lt;= n0	//问题规模较小，可以直接解决</span><br><span class="line">	then reuturn adhoc(p)	//返回结果</span><br><span class="line">	divide p into p1,p2,...,pk</span><br><span class="line">	for i &lt;- 1 to k</span><br><span class="line">		do yi &lt;- divideAndConquer(pi)	// 递归解决子问题</span><br><span class="line">	T &lt;- merge(y1,y2,..., yk)	//合并子问题</span><br><span class="line">	return T	// 返回合并后的结果</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/binary-search/">二分查找</a></h3><p>问题描述：给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [-1,0,3,5,9,12], target = 9</span><br><span class="line">输出: 4</span><br><span class="line">解释: 9 出现在 nums 中并且下标为 4</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: nums = [-1,0,3,5,9,12], target = 2</span><br><span class="line">输出: -1</span><br><span class="line">解释: 2 不存在 nums 中因此返回 -1</span><br></pre></td></tr></table></figure>
+
+<p><strong>递归方式</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> search(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>, target);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> start, <span class="keyword">int</span> end, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start &gt; end)&#123;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> mid = start + ((end - start) &gt;&gt; <span class="number">1</span>);	<span class="comment">// 移位的优先级很低</span></span><br><span class="line">    <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">		<span class="keyword">return</span> search(nums, start, mid - <span class="number">1</span>, target);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">		<span class="keyword">return</span> search(nums, mid + <span class="number">1</span>, end, target);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mid;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>迭代方式</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>, end = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(start &lt;= end)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid = start + ((end - start) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &gt; target)&#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid] &lt; target)&#123;</span><br><span class="line">            start = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>二分查找变形</em></p>
+<p>问题描述：给定一个 n 个元素有序的（升序）整型数组 nums，查找第一个大于等于value的下标，如果不存在则返回-1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binearSearch</span><span class="params">(<span class="keyword">int</span>[]nums, <span class="keyword">int</span> target)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> end = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(start &lt;= end)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid = start + ((end - start) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span>(nums[mid] &gt;= target)&#123;</span><br><span class="line">            end = mid - <span class="number">1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            start = mid + <span class="number">1</span>；</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (start &lt; n) ? start : -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] sortArray(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">  mergeSort(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">return</span> nums;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l &gt;= r)&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">int</span> mid = l + ((r - l) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  mergeSort(nums, l, mid);</span><br><span class="line">  mergeSort(nums, mid + <span class="number">1</span>, r);</span><br><span class="line">  merge(nums, l, r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">  <span class="keyword">int</span> mid = l + ((r - l) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">int</span> i = l, j = mid + <span class="number">1</span>, k = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">int</span>[] tmp = <span class="keyword">new</span> <span class="keyword">int</span>[r - l + <span class="number">1</span>];</span><br><span class="line">  <span class="keyword">while</span>(i &lt;= mid || j &lt;= r)&#123;</span><br><span class="line">    <span class="keyword">if</span>(i &gt; mid || j &lt;= r &amp;&amp; nums[i] &gt; nums[j])&#123;</span><br><span class="line">      tmp[k++] = nums[j++];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      tmp[k++] = nums[i++];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  System.arraycopy(tmp, <span class="number">0</span>, nums, l, r - l + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/08/29/my-recurion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/08/29/my-recurion/" class="post-title-link" itemprop="url">Recursion Problems</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-08-29 16:52:00" itemprop="dateCreated datePublished" datetime="2021-08-29T16:52:00+08:00">2021-08-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-08-31 23:19:45" itemprop="dateModified" datetime="2021-08-31T23:19:45+08:00">2021-08-31</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a><strong>递归</strong></h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a><strong>思想</strong></h2><p><em><strong>递归</strong></em> 是一种编程技巧，一种解决问题的方式。如果一个函数中存在着调用自身的情况，这种现象就叫递归。将大问题分解为小问题求解，再将小问题分解为更小的问题，直到问题分解到足够小，可以直接计算出结果。</p>
+<h3 id="核心：传递-回归"><a href="#核心：传递-回归" class="headerlink" title="核心：传递 + 回归"></a><strong>核心</strong>：传递 + 回归</h3><p><strong>传递</strong>：将问题拆解为子问题，子问题再拆解为更小的子问题，直到被拆解的子问题无须拆解。<br><strong>回归</strong>：最小的子问题解决了，则其上层的问题就解决了，最终结果是原问题解决。</p>
+<h3 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a><strong>解题步骤</strong></h3><ol>
+<li>定义函数，明确函数功能</li>
+<li>寻找问题与子问题的关系（递推公式）</li>
+<li>将递推公式用函数方式实现</li>
+<li>推导时间复杂度，考虑是否有优化空间</li>
+</ol>
+<h3 id="理解重点"><a href="#理解重点" class="headerlink" title="理解重点"></a><strong>理解重点</strong></h3><p>在调用递归时，将递归函数当做普通函数（黑箱）来使用，即：明白该函数的输入和输出是什么，而不用关心函数内部是如何展开和终止的。</p>
+<ul>
+<li>递归重要的是记住递归的函数的含义</li>
+<li>确定递归的终止条件</li>
+<li>调用递归时：将问题分解为更小的子问题</li>
+<li>未调用递归时：关注返回结果</li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h2><h3 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/climbing-stairs/">爬楼梯</a></h3><p>问题描述：假设你正在爬楼梯，该楼梯共n阶，每次你可以爬1或2个台阶。你有多少种方法可以爬到楼顶呢？</p>
+<table>
+<thead>
+<tr>
+<th>示例</th>
+<th align="left">1</th>
+<th align="left">2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输入：</td>
+<td align="left">2</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td>输出：</td>
+<td align="left">2</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td>解释：</td>
+<td align="left">有2种方法到达楼顶，1阶+1阶、2阶</td>
+<td align="left">有3种方法到达楼顶，1阶+1阶+1阶、1阶+2阶、2阶+1阶</td>
+</tr>
+</tbody></table>
+<p><strong>原始递归版本</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span> || n == <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> climbStairs(n - <span class="number">1</span>) + climbStairs(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>带备忘录的递归</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] mem = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> climb(n, mem);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">climb</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[] mem)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span> || n == <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(mem[n] &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> mem[n];</span><br><span class="line">    &#125;</span><br><span class="line">    mem[n] = climb(n - <span class="number">1</span>, mem) + climb(n - <span class="number">2</span>, mem);</span><br><span class="line">    <span class="keyword">return</span> mem[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="反转二叉树"><a href="#反转二叉树" class="headerlink" title="反转二叉树"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/invert-binary-tree/">反转二叉树</a></h3><p> 递归版本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">invertTree</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode temp = root.left;</span><br><span class="line">    root.left = invertTree(root.right);</span><br><span class="line">    root.right = invertTree(temp);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 使用栈方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">invertTree</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">        TreeNode node = stack.pop();</span><br><span class="line">        TreeNode tmp = node.left;</span><br><span class="line">        node.left = node.right;</span><br><span class="line">        node.right = tmp;</span><br><span class="line">        <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack.push(node.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack.push(node.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>使用队列方式BFS</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">invertTree</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Queue&lt;TreeNode&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    queue.offer(root);</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        TreeNode node = queue.poll();</span><br><span class="line">        TreeNode left = node.left;</span><br><span class="line">        TreeNode right = node.right;</span><br><span class="line">        node.left = right;</span><br><span class="line">        node.right = left;</span><br><span class="line">        <span class="keyword">if</span>(left != <span class="keyword">null</span>)&#123;</span><br><span class="line">            queue.offer(left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(right != <span class="keyword">null</span>)&#123;</span><br><span class="line">            queue.offer(right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="路径和"><a href="#路径和" class="headerlink" title="路径和"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/path-sum/">路径和</a></h3><p>问题描述：给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。</p>
+<p>说明：叶子节点是指没有子节点的节点。</p>
+<p>示例：给定如下二叉树，以及目标和 sum = 22，返回true，因为存在5-&gt;4-&gt;11-&gt;2的路径。</p>
+<pre><code>              5
+
+           /    \
+
+         4         8
+
+      /            /   \
+
+   11            13       4
+  /  \                      \
+ 7    2                      1
+ 
+</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathSum</span><span class="params">(TreeNode root, <span class="keyword">int</span> sum)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> root.val == sum;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -226,127 +585,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/08/29/my-recurion/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Fqyuan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Starting...">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/29/my-recurion/" class="post-title-link" itemprop="url">Recursion Problems</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-08-29 16:52:00" itemprop="dateCreated datePublished" datetime="2021-08-29T16:52:00+08:00">2021-08-29</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-31 00:30:34" itemprop="dateModified" datetime="2021-08-31T00:30:34+08:00">2021-08-31</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="递归"><a href="#递归" class="headerlink" title="递归"></a><strong>递归</strong></h1><h2 id="思想"><a href="#思想" class="headerlink" title="思想"></a><strong>思想</strong></h2><p><em><strong>递归</strong></em> 是一种编程技巧，一种解决问题的方式。如果一个函数中存在着调用自身的情况，这种现象就叫递归。将大问题分解为小问题求解，再将小问题分解为更小的问题，直到问题分解到足够小，可以直接计算出结果。</p>
-<h3 id="核心：传递-回归"><a href="#核心：传递-回归" class="headerlink" title="核心：传递 + 回归"></a><strong>核心</strong>：传递 + 回归</h3><p><strong>传递</strong>：教文体拆解为子问题，子问题再拆解为更小的子问题，直到被拆解的子问题无须拆解。<br><strong>回归</strong>：最小的子问题解决了，则其上层的问题就解决了，最终结果是原问题解决。</p>
-<h3 id="解题步骤"><a href="#解题步骤" class="headerlink" title="解题步骤"></a><strong>解题步骤</strong></h3><ol>
-<li>定义函数，明确函数功能</li>
-<li>寻找问题与子问题的关系（递推公式）</li>
-<li>将递推公式用函数方式实现</li>
-<li>推导时间复杂度，考虑是否有优化空间</li>
-</ol>
-<h3 id="理解重点"><a href="#理解重点" class="headerlink" title="理解重点"></a><strong>理解重点</strong></h3><p>在调用递归时，将递归函数当做普通函数（黑箱）来使用，即：明白该函数的输入和输出是什么，而不用关心函数内部是如何展开和终止的。</p>
-<ul>
-<li>递归重要的是记住递归的函数的含义</li>
-<li>确定递归的终止条件</li>
-<li>调用递归时：是将问题分解为更小的子问题</li>
-<li>未递归时：关注返回结果</li>
-</ul>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a><strong>示例</strong></h2><h3 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/climbing-stairs/">爬楼梯</a></h3><p>问题描述：假设你正在爬楼梯，该楼梯共n阶，每次你可以爬1或2个台阶。你有多少种方法可以爬到楼顶呢？</p>
-<table>
-<thead>
-<tr>
-<th>示例</th>
-<th align="left">1</th>
-<th align="left">2</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>输入：</td>
-<td align="left">2</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td>输出：</td>
-<td align="left">2</td>
-<td align="left">3</td>
-</tr>
-<tr>
-<td>解释：</td>
-<td align="left">有2种方法到达楼顶，1阶+1阶、2阶</td>
-<td align="left">有3种方法到达楼顶，1阶+1阶+1阶、1阶+2阶、2阶+1阶</td>
-</tr>
-</tbody></table>
-<p><strong>原始递归版本</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span> || n == <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> climbStairs(n - <span class="number">1</span>) + climbStairs(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>带备忘录的递归</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] mem = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">return</span> climb(n, mem);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">climb</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[] mem)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span> || n == <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> n;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(mem[n] &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> mem[n];</span><br><span class="line">    &#125;</span><br><span class="line">    mem[n] = climb(n - <span class="number">1</span>, mem) + climb(n - <span class="number">2</span>, mem);</span><br><span class="line">    <span class="keyword">return</span> mem[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="反转二叉树"><a href="#反转二叉树" class="headerlink" title="反转二叉树"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/invert-binary-tree/">反转二叉树</a></h3><p> 递归版本</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">invertTree</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode temp = root.left;</span><br><span class="line">    root.left = invertTree(root.right);</span><br><span class="line">    root.right = invertTree(temp);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 使用栈方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">invertTree</span><span class="params">(TreeNode root)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="keyword">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Deque&lt;TreeNode&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">        TreeNode node = stack.pop();</span><br><span class="line">        TreeNode tmp = node.left;</span><br><span class="line">        node.left = node.right;</span><br><span class="line">        node.right = tmp;</span><br><span class="line">        <span class="keyword">if</span>(node.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack.push(node.left);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(node.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">            stack.push(node.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/08/29/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -378,7 +616,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-31 00:30:36" itemprop="dateModified" datetime="2021-08-31T00:30:36+08:00">2021-08-31</time>
+        <time title="Modified: 2021-08-31 00:35:36" itemprop="dateModified" datetime="2021-08-31T00:35:36+08:00">2021-08-31</time>
       </span>
 
   
