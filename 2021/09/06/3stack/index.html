@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"fqyuan.top","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="栈介绍栈，又称堆栈，stack，是计算机科学中的一种抽象数据类型，只允许在有序的线性资料集合的一端（称为栈顶）进行加入数据（push) 和移除数据（pop）的运算。 特征 LIFO(Last In First Out)：后进先出  除了首尾节点外，每个元素有一个前驱，一个后继节点。   操作 进栈：push操作，将一个元素插入到集合内。 出栈；pop操作，将一个元素从集合内不弹出。  示例有效括号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3stack">
+<meta property="og:url" content="http://fqyuan.top/2021/09/06/3stack/index.html">
+<meta property="og:site_name" content="Starting...">
+<meta property="og:description" content="栈介绍栈，又称堆栈，stack，是计算机科学中的一种抽象数据类型，只允许在有序的线性资料集合的一端（称为栈顶）进行加入数据（push) 和移除数据（pop）的运算。 特征 LIFO(Last In First Out)：后进先出  除了首尾节点外，每个元素有一个前驱，一个后继节点。   操作 进栈：push操作，将一个元素插入到集合内。 出栈；pop操作，将一个元素从集合内不弹出。  示例有效括号">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-09-06T15:20:13.717Z">
+<meta property="article:modified_time" content="2021-09-06T15:20:13.717Z">
+<meta property="article:author" content="Fqyuan">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://fqyuan.top/2021/09/06/3stack/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"cn","comments":true,"permalink":"http://fqyuan.top/2021/09/06/3stack/","path":"2021/09/06/3stack/","title":"3stack"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>3stack | Starting...</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Starting...</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">1.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81"><span class="nav-number">1.2.</span> <span class="nav-text">特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.4.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%8B%AC%E5%8F%B7"><span class="nav-number">1.4.1.</span> <span class="nav-text">有效括号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AB%E9%80%80%E6%A0%BC%E7%9A%84%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.4.2.</span> <span class="nav-text">含退格的比较字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.4.3.</span> <span class="nav-text">删除字符串中重复的字符串</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.5.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Fqyuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/09/06/3stack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          3stack
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-06 23:20:13" itemprop="dateCreated datePublished" datetime="2021-09-06T23:20:13+08:00">2021-09-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>栈，又称堆栈，stack，是计算机科学中的一种抽象数据类型，只允许在有序的线性资料集合的一端（称为栈顶）进行加入数据（push) 和移除数据（pop）的运算。</p>
+<h2 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h2><ol>
+<li><p>LIFO(Last In First Out)：后进先出</p>
+</li>
+<li><p>除了首尾节点外，每个元素有一个前驱，一个后继节点。</p>
+</li>
+</ol>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><ol>
+<li>进栈：push操作，将一个元素插入到集合内。</li>
+<li>出栈；pop操作，将一个元素从集合内不弹出。</li>
+</ol>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h3 id="有效括号"><a href="#有效括号" class="headerlink" title="有效括号"></a><a href="httpsleetcode.comproblemsvalid-parentheses">有效括号</a></h3><p>给定一个只包括’(‘, ‘)’, ‘{‘, ‘}’, ‘[‘, ‘]’字符的字符串，判断这个字符串能否构成有效括号。当字符串满足如下两个条件时，我们说这个字符串是有效的：</p>
+<ol>
+<li>开括号必须被同类型的闭括号闭合；</li>
+<li>开括号必须以正确的顺序闭合。</li>
+</ol>
+<p>示例：</p>
+<p>Example 1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input s = ()</span><br><span class="line">Output true</span><br></pre></td></tr></table></figure>
+
+<p>Example 2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input s = ()[]&#123;&#125;</span><br><span class="line">Output true</span><br></pre></td></tr></table></figure>
+
+<p>Example 3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input s = (]</span><br><span class="line">Output false</span><br></pre></td></tr></table></figure>
+
+<p>Example 4</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input s = ([)]</span><br><span class="line">Output false</span><br></pre></td></tr></table></figure>
+
+<p>Example 5</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input s = &#123;[]&#125;</span><br><span class="line">Output true</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遇到开括号时，将对应闭括号压栈；遇到闭括号，对应的位置必须为对应开括号，否则我们返回false</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">	DequeCharacter stack = <span class="keyword">new</span> ArrayDeque();</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">char</span> ch s.toCharArray())&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="string">&#x27;(&#x27;</span> == ch)&#123;</span><br><span class="line">      stack.push(<span class="string">&#x27;)&#x27;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&#x27;[&#x27;</span> == ch)&#123;</span><br><span class="line">      stack.push(<span class="string">&#x27;]&#x27;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="string">&#x27;&#123;&#x27;</span> == ch)&#123;</span><br><span class="line">      stack.push(<span class="string">&#x27;&#125;&#x27;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(stack.isEmpty()  stack.pop() != ch)&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125; 	</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> stack.isEmpty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="含退格的比较字符串"><a href="#含退格的比较字符串" class="headerlink" title="含退格的比较字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/backspace-string-compare/">含退格的比较字符串</a></h3><p>题目：两个字符串，遇到‘#’删除前面的字符，判断两个字符是否相等。</p>
+<p>示例：</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;ab#c&quot;, t = &quot;ad#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both s and t become &quot;ac&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;ab##&quot;, t = &quot;c#d#&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both s and t become &quot;&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;a##c&quot;, t = &quot;#a#c&quot;</span><br><span class="line">Output: true</span><br><span class="line">Explanation: Both s and t become &quot;c&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;a#c&quot;, t = &quot;b&quot;</span><br><span class="line">Output: false</span><br><span class="line">Explanation: s becomes &quot;c&quot; while t becomes &quot;b&quot;.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用栈处理，遇到退格符号时，将栈内一个元素退出</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">backspaceCompare</span><span class="params">(String s, String t)</span> </span>&#123;</span><br><span class="line">    Deque&lt;Character&gt; stackS = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    Deque&lt;Character&gt; stackT = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Character ch : s.toCharArray()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;#&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!stackS.isEmpty()) &#123;</span><br><span class="line">                stackS.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            stackS.push(ch);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (Character ch : t.toCharArray()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">&#x27;#&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!stackT.isEmpty()) &#123;</span><br><span class="line">                stackT.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            stackT.push(ch);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    StringBuilder sbS = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    StringBuilder sbT = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    stackS.forEach(sbS::append);</span><br><span class="line">    stackT.forEach(sbT::append);</span><br><span class="line">    <span class="keyword">return</span> sbS.toString().equals(sbT.toString());</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除字符串中重复的字符串"><a href="#删除字符串中重复的字符串" class="headerlink" title="删除字符串中重复的字符串"></a>删除字符串中重复的字符串</h3><p><strong>题目</strong>：一个只包含小写字母的字符串，如果相邻的两个字符相同则将这两个相邻的字符删掉，返回最终的字符串。</p>
+<p><strong>示例</strong>：</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abbaca&quot;</span><br><span class="line">Output: &quot;ca&quot;</span><br><span class="line">Explanation: </span><br><span class="line">For example, in &quot;abbaca&quot; we could remove &quot;bb&quot; since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is &quot;aaca&quot;, of which only &quot;aa&quot; is possible, so the final string is &quot;ca&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;azxxzy&quot;</span><br><span class="line">Output: &quot;ay&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">removeDuplicates</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    Deque&lt;Character&gt; stack = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (Character ch : s.toCharArray()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (stack.isEmpty()) &#123;</span><br><span class="line">            stack.push(ch);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (stack.peek().equals(ch)) &#123;</span><br><span class="line">            stack.pop();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            stack.push(ch);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    stack.forEach(sb::append);</span><br><span class="line">    <span class="keyword">return</span> sb.reverse().toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="httpsmedium.comtechtofreedomalgorithms-for-interview-1-stack-38884a9020c#id_token=eyJhbGciOiJSUzI1NiIsImtpZCI6IjgxOWQxZTYxNDI5ZGQzZDNjYWVmMTI5YzBhYzJiYWU4YzZkNDZmYmMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJuYmYiOjE2MzA1OTU1NDYsImF1ZCI6IjIxNjI5NjAzNTgzNC1rMWs2cWUwNjBzMnRwMmEyamFtNGxqZGNtczAwc3R0Zy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExNTkxODk2MTYxOTk1MjYzMzk3OSIsImVtYWlsIjoieXVhbmpvaG4xMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXpwIjoiMjE2Mjk2MDM1ODM0LWsxazZxZTA2MHMydHAyYTJqYW00bGpkY21zMDBzdHRnLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwibmFtZSI6InkgZnEiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EtL0FPaDE0R2dpM3lzZzM4U08wSTR4UmJ4RndVaUR1TmltcjFjVXZFcFc2djUwPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6InkiLCJmYW1pbHlfbmFtZSI6ImZxIiwiaWF0IjoxNjMwNTk1ODQ2LCJleHAiOjE2MzA1OTk0NDYsImp0aSI6IjU0NDU1ZDE2YTE3ODAyNDBkYzY5YTYxZTY4Yzk0MTkwODNlZWMyODQifQ.oS0je-kSH2sWsG-iZZjG0Yg4pY4oXMKPJ9aUZTBHynqfvziVNr8vgo7Y-CyxYY29I_RzET2yVdW-9U23RBMTFm35xJQy4tsp1bOGK8BdCj5BkQPL-xrPFunSV1LUgmip8AZvKH8Z_7KZwJ_ox1LVK7AToQEKcyY75lgTyApThOtDynXr1j4pnWGbX0JZLmiO9d7de6XRY3qUvQnLX7fwSDnA2HcLxb9cb0SLW4d8LkJatmpiRJqtcLOVsAXDrAXDOUQFiXOGHQKVzrUay_WplMf4L0orYBc1aA57vS8HRmlgQWWtx6hBA_IyuHRNnjSpEBWeGl6Kop0DKKgMEuOTrg">algorithm for interview1  stack</a></p>
+<p>[2] <a href="httpszh.wikipedia.orgzh-cn%E5%A0%86%E6%A0%88#%E7%89%B9%E7%82%B9">堆栈介绍</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/02/jar%E5%8C%85%E6%89%93%E5%8C%85%E4%BD%BF%E7%94%A8/" rel="prev" title="jar包打包使用">
+                  <i class="fa fa-chevron-left"></i> jar包打包使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/08/synchronize_block/" rel="next" title="synchronize_block">
+                  synchronize_block <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fqyuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
