@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"fqyuan.top","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="滑动窗口介绍滑动窗口是一种用来解决在一个给定数组中计算某个范围答案的方法。 滑动窗口思想将两层嵌套循环转换成一层循环。 使用条件适用于：问题要求重复地在一定范围内计算最大值（最小值）。也就是说，如果待比较的范围起始位置元素排序后，它们的终止位置也将自动排序，这时候我们就可以使用滑动窗口解决问题了。 关键是：当我们向前移动左指针时，要保证右指针要么位置保持不变，要么位置向右移动。 数学形式表达Li,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6slide_window">
+<meta property="og:url" content="http://fqyuan.top/2021/09/23/6slide_window/index.html">
+<meta property="og:site_name" content="Starting...">
+<meta property="og:description" content="滑动窗口介绍滑动窗口是一种用来解决在一个给定数组中计算某个范围答案的方法。 滑动窗口思想将两层嵌套循环转换成一层循环。 使用条件适用于：问题要求重复地在一定范围内计算最大值（最小值）。也就是说，如果待比较的范围起始位置元素排序后，它们的终止位置也将自动排序，这时候我们就可以使用滑动窗口解决问题了。 关键是：当我们向前移动左指针时，要保证右指针要么位置保持不变，要么位置向右移动。 数学形式表达Li,">
+<meta property="og:locale">
+<meta property="og:image" content="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-8182ca45d6e34933c9a2580742557162_l3.svg">
+<meta property="og:image" content="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-1f04e54c579c9e8a1b4ce4fd5c37e2be_l3.svg">
+<meta property="og:image" content="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-7d8e11c801bfa9c65cc74077e128d163_l3.svg">
+<meta property="og:image" content="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-9df819183fb413ae7d3c9b6c5e5fd43d_l3.svg">
+<meta property="article:published_time" content="2021-09-23T15:22:08.232Z">
+<meta property="article:modified_time" content="2021-09-23T16:07:47.173Z">
+<meta property="article:author" content="Fqyuan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-8182ca45d6e34933c9a2580742557162_l3.svg">
+
+
+<link rel="canonical" href="http://fqyuan.top/2021/09/23/6slide_window/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"cn","comments":true,"permalink":"http://fqyuan.top/2021/09/23/6slide_window/","path":"2021/09/23/6slide_window/","title":"6slide_window"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>6slide_window | Starting...</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Starting...</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.</span> <span class="nav-text">滑动窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%80%9D%E6%83%B3"><span class="nav-number">1.1.1.</span> <span class="nav-text">滑动窗口思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%BD%A2%E5%BC%8F%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.1.3.</span> <span class="nav-text">数学形式表达</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.4.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">固定滑动窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%8E%9F%E5%9E%8B"><span class="nav-number">1.1.4.1.1.</span> <span class="nav-text">题目原型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%9B%AE%E5%8A%9B%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.4.1.2.</span> <span class="nav-text">蛮力方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.4.1.3.</span> <span class="nav-text">滑动窗口方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">可变滑动窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%8E%9F%E5%9E%8B-1"><span class="nav-number">1.1.4.2.1.</span> <span class="nav-text">题目原型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%9B%AE%E5%8A%9B%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.1.4.2.2.</span> <span class="nav-text">蛮力方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%96%B9%E6%B3%95-1"><span class="nav-number">1.1.4.2.3.</span> <span class="nav-text">滑动窗口方法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%95%BF%E5%BA%A6%E6%9C%80%E5%B0%8F%E7%9A%84%E5%AD%90%E6%95%B0%E7%BB%84"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 长度最小的子数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 无重复字符的最长子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9C%80%E5%A4%9A%E4%B8%80%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 最多一个重复字符的最长子串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD1%E7%9A%84%E4%B8%AA%E6%95%B0III"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 最大连续1的个数III</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%B0%BD%E5%8F%AF%E8%83%BD%E4%BD%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E7%AD%89"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. 尽可能使字符串相等</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E6%9C%80%E5%B0%8F%E7%AA%97%E5%8F%A3%E5%AD%90%E6%95%B0%E7%BB%84"><span class="nav-number">1.3.6.</span> <span class="nav-text">6. 最小窗口子数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E5%9C%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%89%BE%E5%88%B0%E6%89%80%E6%9C%89%E7%9A%84%E5%8F%98%E4%BD%8D%E8%AF%8D"><span class="nav-number">1.3.7.</span> <span class="nav-text">7.在字符串中找到所有的变位词</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Fqyuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/09/23/6slide_window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          6slide_window
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-23 23:22:08" itemprop="dateCreated datePublished" datetime="2021-09-23T23:22:08+08:00">2021-09-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-09-24 00:07:47" itemprop="dateModified" datetime="2021-09-24T00:07:47+08:00">2021-09-24</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>滑动窗口是一种用来解决在一个给定数组中计算某个范围答案的方法。</p>
+<h4 id="滑动窗口思想"><a href="#滑动窗口思想" class="headerlink" title="滑动窗口思想"></a><strong>滑动窗口思想</strong></h4><p>将两层嵌套循环转换成一层循环。</p>
+<h4 id="使用条件"><a href="#使用条件" class="headerlink" title="使用条件"></a><strong>使用条件</strong></h4><p>适用于：问题要求重复地在一定范围内计算最大值（最小值）。也就是说，如果待比较的范围起始位置元素排序后，它们的终止位置也将自动排序，这时候我们就可以使用滑动窗口解决问题了。</p>
+<p>关键是：当我们向前移动左指针时，要保证右指针<strong>要么位置保持不变，要么位置向右移动</strong>。</p>
+<h4 id="数学形式表达"><a href="#数学形式表达" class="headerlink" title="数学形式表达"></a>数学形式表达</h4><p>Li, Lj为范围的左边界， Ri, Rj为范围的右边界。<br>$$<br>if Li&gt;=Lj, then Ri &gt;= Rj<br>$$<br>我们一般持有L和R两个指针，这两个指针表示当前范围的左右边界，每一步操作时我们要么移动L或R指针，要么两者同时移动。当我们将L指针左移时，我们删除当前范围的元素；当我们将R指针右移时，我们将新的元素增加到当前的范围中。</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a><strong>分类</strong></h4><p>根据所操作的范围大小是否固定分为2种。</p>
+<h5 id="固定滑动窗口"><a href="#固定滑动窗口" class="headerlink" title="固定滑动窗口"></a>固定滑动窗口</h5><h6 id="题目原型"><a href="#题目原型" class="headerlink" title="题目原型"></a>题目原型</h6><p>给定一个长度为n的数组nums, 一个整数k，数组中k个连续元素的最大值是多少？</p>
+<h6 id="蛮力方法"><a href="#蛮力方法" class="headerlink" title="蛮力方法"></a>蛮力方法</h6><p><img src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-8182ca45d6e34933c9a2580742557162_l3.svg" alt="Rendered by QuickLaTeX.com"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* k个连续元素的和最大值</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> nums 输入数组</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> k 连续元素个数</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> 连续元素和最大值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fixedWindowNaive</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length - k; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; i + k; j++) &#123;</span><br><span class="line">            sum += nums[j];</span><br><span class="line">        &#125;</span><br><span class="line">        result = Math.max(result, sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="滑动窗口方法"><a href="#滑动窗口方法" class="headerlink" title="滑动窗口方法"></a>滑动窗口方法</h6><p><img src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-1f04e54c579c9e8a1b4ce4fd5c37e2be_l3.svg" alt="Rendered by QuickLaTeX.com"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 滑动窗口解法</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> nums 输入数组</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> k 连续元素个数</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> 连续元素和最大值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fixedWindow</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123;</span><br><span class="line">        sum += nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> result = sum;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = k; i &lt; nums.length; i++) &#123;</span><br><span class="line">        sum += nums[i] - nums[i - k];</span><br><span class="line">        result = Math.max(result, sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="可变滑动窗口"><a href="#可变滑动窗口" class="headerlink" title="可变滑动窗口"></a>可变滑动窗口</h5><h6 id="题目原型-1"><a href="#题目原型-1" class="headerlink" title="题目原型"></a>题目原型</h6><p>给定一个长度为n的数组nums, 一个整数k表示数组和最大值，返回不大于k的最大连续数组长度是多少？</p>
+<h6 id="蛮力方法-1"><a href="#蛮力方法-1" class="headerlink" title="蛮力方法"></a>蛮力方法</h6><p><img src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-7d8e11c801bfa9c65cc74077e128d163_l3.svg" alt="Rendered by QuickLaTeX.com"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 和不大于k的连续元素个数最大值</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> nums 输入数组</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> k 和的上限</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@return</span> 连续元素和</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">flexibleWindowNaive</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> l = <span class="number">0</span>; l &lt; nums.length; l++)&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> r = l; r &lt; nums.length &amp;&amp; nums[r] + sum &lt;= k; r++)&#123;</span><br><span class="line">            sum += nums[r];</span><br><span class="line">            cnt++;</span><br><span class="line">        &#125;</span><br><span class="line">        ans = Math.max(ans, cnt);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h6 id="滑动窗口方法-1"><a href="#滑动窗口方法-1" class="headerlink" title="滑动窗口方法"></a>滑动窗口方法</h6><p><img src="https://www.baeldung.com/wp-content/ql-cache/quicklatex.com-9df819183fb413ae7d3c9b6c5e5fd43d_l3.svg" alt="Rendered by QuickLaTeX.com"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">flexibleWindow</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(l = <span class="number">0</span>; l &lt; nums.length; l++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(l &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            sum -= nums[l];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(;r &lt; nums.length &amp;&amp; nums[r] + sum &lt; k; r++)&#123;</span><br><span class="line">            sum += nums[r];</span><br><span class="line">        &#125;</span><br><span class="line">        ans = Math.max(ans, r - l);</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(r &lt; nums.length)&#123;</span><br><span class="line">        sum += nums[r];</span><br><span class="line">        <span class="keyword">while</span>(sum &gt; k)&#123;</span><br><span class="line">            sum -= nums[l];</span><br><span class="line">            l++;</span><br><span class="line">        &#125;</span><br><span class="line">        ans = Math.max(ans, r - l);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><p>参见使用条件。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><h4 id="1-长度最小的子数组"><a href="#1-长度最小的子数组" class="headerlink" title="1. 长度最小的子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-size-subarray-sum/"><strong>1. 长度最小的子数组</strong></a></h4><p>Given an array of positive integers <code>nums</code> and a positive integer <code>target</code>, return the minimal length of a <strong>contiguous subarray</strong> <code>[numsl, numsl+1, ..., numsr-1, numsr]</code> of which the sum is greater than or equal to <code>target</code>. If there is no such subarray, return <code>0</code> instead.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: target = 7, nums = [2,3,1,2,4,3]</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: The subarray [4,3] has the minimal length under the problem constraint.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: target = 4, nums = [1,4,4]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: target = 11, nums = [1,1,1,1,1,1,1,1]</span><br><span class="line">Output: 0</span><br></pre></td></tr></table></figure>
+
+<p> <strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= target &lt;= 109</code></li>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 105</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大于等于某个值求取最小长度</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minSubArrayLen</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ans = Integer.MAX_VALUE;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(r = <span class="number">0</span>; r &lt; nums.length; r++)&#123;</span><br><span class="line">        sum += nums[r];</span><br><span class="line">        <span class="keyword">while</span>(sum &gt;= s)&#123;</span><br><span class="line">            ans = Math.min(ans, r - l + <span class="number">1</span>);</span><br><span class="line">            sum -= nums[l];</span><br><span class="line">            l++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans == Integer.MAX_VALUE ? <span class="number">0</span> : ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-无重复字符的最长子串"><a href="#2-无重复字符的最长子串" class="headerlink" title="2. 无重复字符的最长子串"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">2. 无重复字符的最长子串</a></strong></h4><p>Given a string <code>s</code>, find the length of the <strong>longest substring</strong> without repeating characters.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abcabcbb&quot;</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: The answer is &quot;abc&quot;, with the length of 3.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;bbbbb&quot;</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: The answer is &quot;b&quot;, with the length of 1.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;pwwkew&quot;</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: The answer is &quot;wke&quot;, with the length of 3.</span><br><span class="line">Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence and not a substring.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;&quot;</span><br><span class="line">Output: 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= s.length &lt;= 5 * 104</code></li>
+<li><code>s</code> consists of English letters, digits, symbols and spaces.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    Set&lt;Character&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(r = <span class="number">0</span>; r &lt; s.length(); r++)&#123;</span><br><span class="line">			<span class="keyword">while</span>(set.contains(s.charAt(r)))&#123;</span><br><span class="line">            set.remove(s.charAt(l++));</span><br><span class="line">        &#125;</span><br><span class="line">        set.add(s.charAt(r));</span><br><span class="line">        ans = Math.max(ans, r - l + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模板方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">    Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">int</span> begin = <span class="number">0</span>, end = <span class="number">0</span>, counter = <span class="number">0</span>, d = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (end &lt; s.length()) &#123;</span><br><span class="line">        <span class="comment">// &gt; 0 means repeating character</span></span><br><span class="line">        <span class="comment">//if(map[s.charAt(end++)]-- &gt; 0) counter++;</span></span><br><span class="line">        <span class="keyword">char</span> c = s.charAt(end);</span><br><span class="line">        map.put(c, map.getOrDefault(c, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span>(map.get(c) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            counter++;</span><br><span class="line">        &#125;</span><br><span class="line">        end++;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (counter &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//if (map[s.charAt(begin++)]-- &gt; 1) counter--;</span></span><br><span class="line">            <span class="keyword">char</span> charTemp = s.charAt(begin);</span><br><span class="line">            map.put(charTemp, map.get(charTemp)-<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (map.get(charTemp) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                counter--;   </span><br><span class="line">            &#125;</span><br><span class="line">            begin++;</span><br><span class="line">        &#125;</span><br><span class="line">        d = Math.max(d, end - begin);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-最多一个重复字符的最长子串"><a href="#3-最多一个重复字符的最长子串" class="headerlink" title="3. 最多一个重复字符的最长子串"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/">3. 最多一个重复字符的最长子串</a></strong></h4><p><strong>Longest Substring with At Most Two Distinct Characters</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLongestSubstringTwoDistinct</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        Map&lt;Character,Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, end = <span class="number">0</span>, counter = <span class="number">0</span>, len = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(end &lt; s.length())&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(end);</span><br><span class="line">            map.put(c, map.getOrDefault(c, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(map.get(c) == <span class="number">1</span>) counter++;<span class="comment">//new char</span></span><br><span class="line">            end++;</span><br><span class="line">            <span class="keyword">while</span>(counter &gt; <span class="number">2</span>)&#123;</span><br><span class="line">                <span class="keyword">char</span> cTemp = s.charAt(start);</span><br><span class="line">                map.put(cTemp, map.get(cTemp) - <span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span>(map.get(cTemp) == <span class="number">0</span>)&#123;</span><br><span class="line">                    counter--;</span><br><span class="line">                &#125;</span><br><span class="line">                start++;</span><br><span class="line">            &#125;</span><br><span class="line">            len = Math.max(len, end-start);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="4-最大连续1的个数III"><a href="#4-最大连续1的个数III" class="headerlink" title="4. 最大连续1的个数III"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/max-consecutive-ones-iii/"><strong>4. 最大连续1的个数III</strong></a></h4><p>Given a binary array <code>nums</code> and an integer <code>k</code>, return <em>the maximum number of consecutive</em> <code>1</code><em>‘s in the array if you can flip at most</em> <code>k</code> <code>0</code>‘s. </p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: [1,1,1,0,0,1,1,1,1,1,1]</span><br><span class="line">Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3</span><br><span class="line">Output: 10</span><br><span class="line">Explanation: [0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1]</span><br><span class="line">Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.</span><br></pre></td></tr></table></figure>
+
+<p> <strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>nums[i]</code> is either <code>0</code> or <code>1</code>.</li>
+<li><code>0 &lt;= k &lt;= nums.length</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">longestOnes</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> zeroCnt = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len = A.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> end = <span class="number">0</span>; end &lt; len; end++) &#123;</span><br><span class="line">          <span class="comment">// 增大时更新什么数据</span></span><br><span class="line">            <span class="keyword">if</span> (A[end] == <span class="number">0</span>) &#123;</span><br><span class="line">                zeroCnt++;</span><br><span class="line">            &#125;</span><br><span class="line">          <span class="comment">// 什么时候收缩</span></span><br><span class="line">            <span class="keyword">while</span> (zeroCnt &gt; K) &#123;</span><br><span class="line">          <span class="comment">// 收缩时更新什么数据</span></span><br><span class="line">                <span class="keyword">if</span> (A[start] == <span class="number">0</span>) &#123;</span><br><span class="line">                    zeroCnt--;</span><br><span class="line">                &#125;</span><br><span class="line">                start++;</span><br><span class="line">            &#125;</span><br><span class="line">          <span class="comment">//什么时候更新结果</span></span><br><span class="line">            result = Math.max(end - start + <span class="number">1</span>, result);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="5-尽可能使字符串相等"><a href="#5-尽可能使字符串相等" class="headerlink" title="5. 尽可能使字符串相等"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/get-equal-substrings-within-budget/">5. 尽可能使字符串相等</a></strong></h4><p>You are given two strings <code>s</code> and <code>t</code> of the same length. You want to change <code>s</code> to <code>t</code>. Changing the <code>i</code>-th character of <code>s</code> to <code>i</code>-th character of <code>t</code> costs <code>|s[i] - t[i]|</code> that is, the absolute difference between the ASCII values of the characters.</p>
+<p>You are also given an integer <code>maxCost</code>.</p>
+<p>Return the maximum length of a substring of <code>s</code> that can be changed to be the same as the corresponding substring of <code>t</code>with a cost less than or equal to <code>maxCost</code>.</p>
+<p>If there is no substring from <code>s</code> that can be changed <code>to its corresponding substring from </code>t<code>, return </code>0`.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abcd&quot;, t = &quot;bcdf&quot;, maxCost = 3</span><br><span class="line">Output: 3</span><br><span class="line">Explanation: &quot;abc&quot; of s can change to &quot;bcd&quot;. That costs 3, so the maximum length is 3.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abcd&quot;, t = &quot;cdef&quot;, maxCost = 3</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: Each character in s costs 2 to change to charactor in t, so the maximum length is 1.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abcd&quot;, t = &quot;acde&quot;, maxCost = 0</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: You can&#x27;t make any change, so the maximum length is 1.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length, t.length &lt;= 10^5</code></li>
+<li><code>0 &lt;= maxCost &lt;= 10^6</code></li>
+<li><code>s</code> and <code>t</code> only contain lower case English letters.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">equalSubstring</span><span class="params">(String s, String t, <span class="keyword">int</span> maxCost)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> cost = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(; r &lt; s.length(); r++)&#123;</span><br><span class="line">        cost += Math.abs(s.charAt(r) - t.charAt(r));</span><br><span class="line">        <span class="keyword">while</span>(cost &gt; maxCost)&#123;</span><br><span class="line">            cost -= Math.abs(s.charAt(l) - t.charAt(l));</span><br><span class="line">            l++;</span><br><span class="line">        &#125;</span><br><span class="line">        ans = Math.max(ans, r - l + <span class="number">1</span>); </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="6-最小窗口子数组"><a href="#6-最小窗口子数组" class="headerlink" title="6. 最小窗口子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-window-substring/"><strong>6. 最小窗口子数组</strong></a></h4><p>Given two strings <code>s</code> and <code>t</code> of lengths <code>m</code> and <code>n</code> respectively, return <em>the <strong>minimum window substring</strong> of</em> <code>s</code> <em>such that every character in</em> <code>t</code> <em>(<strong>including duplicates</strong>) is included in the window. If there is no such substring</em><em>, return the empty string</em> <code>&quot;&quot;</code><em>.</em></p>
+<p>The testcases will be generated such that the answer is <strong>unique</strong>.</p>
+<p>A <strong>substring</strong> is a contiguous sequence of characters within the string.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;ADOBECODEBANC&quot;, t = &quot;ABC&quot;</span><br><span class="line">Output: &quot;BANC&quot;</span><br><span class="line">Explanation: The minimum window substring &quot;BANC&quot; includes &#x27;A&#x27;, &#x27;B&#x27;, and &#x27;C&#x27; from string t.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;a&quot;, t = &quot;a&quot;</span><br><span class="line">Output: &quot;a&quot;</span><br><span class="line">Explanation: The entire string s is the minimum window.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;a&quot;, t = &quot;aa&quot;</span><br><span class="line">Output: &quot;&quot;</span><br><span class="line">Explanation: Both &#x27;a&#x27;s from t must be included in the window.</span><br><span class="line">Since the largest window of s only has one &#x27;a&#x27;, return empty string.</span><br></pre></td></tr></table></figure>
+
+<p> <strong>Constraints:</strong></p>
+<ul>
+<li><code>m == s.length</code></li>
+<li><code>n == t.length</code></li>
+<li><code>1 &lt;= m, n &lt;= 105</code></li>
+<li><code>s</code> and <code>t</code> consist of uppercase and lowercase English letters.</li>
+</ul>
+<p><strong>Follow up:</strong> Could you find an algorithm that runs in <code>O(m + n)</code> time?</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">minWindow</span><span class="params">(String s, String t)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// corner case here</span></span><br><span class="line">        <span class="keyword">if</span> (s.length() &lt; t.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// create a hashmap to save target substring, &lt;Character, Frequency of the character&gt;</span></span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">char</span> ch : t.toCharArray()) &#123;</span><br><span class="line">            map.put(ch, map.getOrDefault(ch, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> r = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// counter to check whether match the target string, must be map.size, because char may be duplicate</span></span><br><span class="line">        <span class="keyword">int</span> counter = map.size();</span><br><span class="line">    		<span class="comment">// 满足条件的起始位置</span></span><br><span class="line">        <span class="keyword">int</span> head = <span class="number">0</span>;</span><br><span class="line">    		<span class="comment">// 初始化为最大值</span></span><br><span class="line">        <span class="keyword">int</span> len = Integer.MAX_VALUE;</span><br><span class="line">    		<span class="comment">// 增大窗口</span></span><br><span class="line">        <span class="keyword">while</span> (r &lt; s.length()) &#123;</span><br><span class="line">            <span class="keyword">char</span> rCh = s.charAt(r);</span><br><span class="line">            <span class="comment">// 增大窗口时，在遇到已保存字符时更新map及counter</span></span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(rCh)) &#123;</span><br><span class="line">                <span class="comment">// 每当遇到map中存在的key时，将对应value-1, 可能为负值</span></span><br><span class="line">                map.put(rCh, map.get(rCh) - <span class="number">1</span>);</span><br><span class="line">                <span class="comment">// map.get(rCh) == 0表明这个字符对应的元素已全部在窗口内，将counter值减1</span></span><br><span class="line">                <span class="keyword">if</span> (map.get(rCh) == <span class="number">0</span>) &#123;</span><br><span class="line">                    counter--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 更新右指针</span></span><br><span class="line">            r++;</span><br><span class="line">            <span class="comment">// 缩小窗口</span></span><br><span class="line">            <span class="keyword">while</span> (counter == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">char</span> lCh = s.charAt(l);</span><br><span class="line">                <span class="comment">// 缩小窗口时，遇到已保存字符时，更新map及counter</span></span><br><span class="line">                <span class="keyword">if</span> (map.containsKey(lCh)) &#123;</span><br><span class="line">                    map.put(lCh, map.get(lCh) + <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span> (map.get(lCh) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        counter++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 更新结果</span></span><br><span class="line">                <span class="keyword">if</span> (r - l &lt; len) &#123;</span><br><span class="line">                    head = l;</span><br><span class="line">                    len = r - l;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 更新左指针，更新窗口</span></span><br><span class="line">                l++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> len == Integer.MAX_VALUE ? <span class="string">&quot;&quot;</span> : s.substring(head, head + len);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="7-在字符串中找到所有的变位词"><a href="#7-在字符串中找到所有的变位词" class="headerlink" title="7.在字符串中找到所有的变位词"></a>7.<a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-all-anagrams-in-a-string/">在字符串中找到所有的变位词</a></h4><p>Given two strings <code>s</code> and <code>p</code>, return <em>an array of all the start indices of</em> <code>p</code><em>‘s anagrams in</em> <code>s</code>. You may return the answer in <strong>any order</strong>.</p>
+<p>An <strong>Anagram</strong> is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;cbaebabacd&quot;, p = &quot;abc&quot;</span><br><span class="line">Output: [0,6]</span><br><span class="line">Explanation:</span><br><span class="line">The substring with start index = 0 is &quot;cba&quot;, which is an anagram of &quot;abc&quot;.</span><br><span class="line">The substring with start index = 6 is &quot;bac&quot;, which is an anagram of &quot;abc&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;abab&quot;, p = &quot;ab&quot;</span><br><span class="line">Output: [0,1,2]</span><br><span class="line">Explanation:</span><br><span class="line">The substring with start index = 0 is &quot;ab&quot;, which is an anagram of &quot;ab&quot;.</span><br><span class="line">The substring with start index = 1 is &quot;ba&quot;, which is an anagram of &quot;ab&quot;.</span><br><span class="line">The substring with start index = 2 is &quot;ab&quot;, which is an anagram of &quot;ab&quot;.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length, p.length &lt;= 3 * 104</code></li>
+<li><code>s</code> and <code>p</code> consist of lowercase English letters.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">findAnagrams</span><span class="params">(String s, String t)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; result = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(t.length()&gt; s.length()) <span class="keyword">return</span> result;</span><br><span class="line">        Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c : t.toCharArray())&#123;</span><br><span class="line">            map.put(c, map.getOrDefault(c, <span class="number">0</span>) + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> counter = map.size();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>, end = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> head = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len = Integer.MAX_VALUE;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(end &lt; s.length())&#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(end);</span><br><span class="line">            <span class="keyword">if</span>( map.containsKey(c) )&#123;</span><br><span class="line">                map.put(c, map.get(c)-<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">if</span>(map.get(c) == <span class="number">0</span>) counter--;</span><br><span class="line">            &#125;</span><br><span class="line">            end++;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">while</span>(counter == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">char</span> tempc = s.charAt(begin);</span><br><span class="line">                <span class="keyword">if</span>(map.containsKey(tempc))&#123;</span><br><span class="line">                    map.put(tempc, map.get(tempc) + <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">if</span>(map.get(tempc) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">                        counter++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(end-begin == t.length())&#123;</span><br><span class="line">                    result.add(begin);</span><br><span class="line">                &#125;</span><br><span class="line">                begin++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.baeldung.com/cs/sliding-window-algorithm">1. 滑动窗口算法</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/142048740">2. 滑动窗口模板</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-all-anagrams-in-a-string/discuss/92007/Sliding-Window-algorithm-template-to-solve-all-the-Leetcode-substring-search-problem.">3. leetcode滑动窗口模板</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/17/l01_lnmp_conf/" rel="prev" title="l01_lnmp_conf">
+                  <i class="fa fa-chevron-left"></i> l01_lnmp_conf
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/26/0_1_sort/" rel="next" title="0_1_sort">
+                  0_1_sort <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fqyuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"fqyuan.top","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="并查集 介绍在介绍并查集之前我们先介绍不相交集，又称为Disjoint set。 ​    顾名思义，不相交集就是任意两个集合都没有相同元素。 并查集：除了具有不相交集合的所有特征外，还有一个特点：将所有不相交集合并起来就等同于是全集。 并查集操作：  ​    存储：用集合中的某个元素表示这个集合，该元素称为集合的代表元。这个集合中的所有元素组织成以代表元为树根的树形结构。对于每一个元素u, r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5_disjoint_set">
+<meta property="og:url" content="http://fqyuan.top/2021/09/15/5_disjoint_set/index.html">
+<meta property="og:site_name" content="Starting...">
+<meta property="og:description" content="并查集 介绍在介绍并查集之前我们先介绍不相交集，又称为Disjoint set。 ​    顾名思义，不相交集就是任意两个集合都没有相同元素。 并查集：除了具有不相交集合的所有特征外，还有一个特点：将所有不相交集合并起来就等同于是全集。 并查集操作：  ​    存储：用集合中的某个元素表示这个集合，该元素称为集合的代表元。这个集合中的所有元素组织成以代表元为树根的树形结构。对于每一个元素u, r">
+<meta property="og:locale">
+<meta property="og:image" content="https://img0.baidu.com/it/u=21530790,1841053152&fm=26&fmt=auto&gp=0.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2020/12/24/graph1.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2020/12/24/graph2.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2021/05/02/reduntant1-1-graph.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2021/05/02/reduntant1-2-graph.jpg">
+<meta property="article:published_time" content="2021-09-15T15:49:38.457Z">
+<meta property="article:modified_time" content="2021-09-15T15:49:38.457Z">
+<meta property="article:author" content="Fqyuan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img0.baidu.com/it/u=21530790,1841053152&fm=26&fmt=auto&gp=0.jpg">
+
+
+<link rel="canonical" href="http://fqyuan.top/2021/09/15/5_disjoint_set/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"cn","comments":true,"permalink":"http://fqyuan.top/2021/09/15/5_disjoint_set/","path":"2021/09/15/5_disjoint_set/","title":"5_disjoint_set"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>5_disjoint_set | Starting...</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Starting...</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E6%9F%A5%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">并查集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.3.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%9C%81%E4%BB%BD%E6%95%B0%E9%87%8F-%E6%9C%8B%E5%8F%8B%E5%9C%88%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 省份数量(朋友圈问题)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%86%97%E4%BD%99%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 冗余连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%B4%A6%E5%8F%B7%E5%90%88%E5%B9%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 账号合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%BB%A1%E8%B6%B3%E7%AD%89%E5%BC%8F%E6%96%B9%E7%A8%8B%E6%A3%80%E6%9F%A5"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 满足等式方程检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%9C%80%E5%B0%8F%E4%BA%A4%E6%8D%A2%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. 最小交换字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F"><span class="nav-number">1.3.6.</span> <span class="nav-text">6. 岛屿数量</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Fqyuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://fqyuan.top/2021/09/15/5_disjoint_set/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Fqyuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Starting...">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          5_disjoint_set
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-09-15 23:49:38" itemprop="dateCreated datePublished" datetime="2021-09-15T23:49:38+08:00">2021-09-15</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h2><p><img src="https://img0.baidu.com/it/u=21530790,1841053152&fm=26&fmt=auto&gp=0.jpg" alt="img"></p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>在介绍并查集之前我们先介绍<em><strong>不相交集</strong></em>，又称为Disjoint set。</p>
+<p>​    顾名思义，不相交集就是任意两个集合都没有相同元素。</p>
+<p><em><strong>并查集</strong></em>：除了具有不相交集合的所有特征外，还有一个特点：将所有<em><strong>不相交集</strong></em>合并起来就等同于是全集。</p>
+<p>并查集操作：</p>
+<ul>
+<li><p>​    <strong>存储</strong>：用集合中的某个元素表示这个集合，该元素称为集合的代表元。这个集合中的所有元素组织成以代表元为树根的树形结构。对于每一个元素u, representation[u]指向其父节点。如果u为根节点，则令representation[u] = u。</p>
+</li>
+<li><p>​    <strong>合并</strong>：如有2个集合u和v，要把以这两个代表元的集合合并为一个集合。</p>
+</li>
+<li><p>​    <strong>查找</strong>：找到该元素的代表元素，假设元素为u，则其父节点为representation[u]，沿着representation[u]不断向上层移动，直到到达根节点，这个根节点即为该元素的代表元。</p>
+</li>
+</ul>
+<h3 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h3><p>合并操作优化：按秩合并，秩可以理解为树的深度</p>
+<p>​    每次合并时，将秩较小的合并到秩较大的代表元下。</p>
+<p>查找操作优化：路径压缩</p>
+<p>​    每次查找时，将路径上每个节点都指向代表元。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnionFind</span></span>&#123;</span><br><span class="line">    <span class="comment">// 元素的代表值</span></span><br><span class="line">    <span class="keyword">int</span>[] represent;</span><br><span class="line">	<span class="comment">// 代表元的秩</span></span><br><span class="line">    <span class="keyword">int</span>[] rank[];</span><br><span class="line">    <span class="comment">// 集合的数量</span></span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    <span class="comment">//初始化，每个元素代表元为其自身</span></span><br><span class="line">    UnionFind(<span class="keyword">int</span> n)&#123;</span><br><span class="line">        represent = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        rank = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">        count = n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)&#123;</span><br><span class="line">            represent[i] = i;</span><br><span class="line">            rank[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 基础合并操作，直接将v的代表元合并到u的代表元下</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> repU = find(u);</span><br><span class="line">        <span class="keyword">int</span> repV = find(v);</span><br><span class="line">        <span class="keyword">if</span>(repU == repV)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        represent[repU] = repV;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find0</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(u != represent[u])&#123;</span><br><span class="line">            <span class="comment">// 隔代压缩</span></span><br><span class="line">            represent[u] = represent[represent[u]];</span><br><span class="line">            u = represent[u];</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 不压缩</span></span><br><span class="line">            <span class="comment">// u = represent[represent[u]];</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> u;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 递归版本的查找操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(represent[u] != u)&#123;</span><br><span class="line">            <span class="keyword">return</span> find(represent[u]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> represent[u];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//优化：秩合并</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union1</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> repU = find(u);</span><br><span class="line">        <span class="keyword">int</span> repV = find(v);</span><br><span class="line">        <span class="keyword">if</span>(repU == repV)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(rank[repU] &gt; rank[repV])&#123;</span><br><span class="line">        	represent[repV] = repU;    </span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(rank[repU] &lt; rank[repV])&#123;</span><br><span class="line">            represent[repU] = repV;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            represent[repV] = repU;</span><br><span class="line">            rank[repU]++;</span><br><span class="line">        &#125;</span><br><span class="line">		count++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 优化：路径压缩</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find1</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(u != represent[u])&#123;</span><br><span class="line">            represent[u] = find1(represent[u]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> represent[u];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isConnected</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> find(u) == find(v);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSetCnt</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><h4 id="1-省份数量-朋友圈问题"><a href="#1-省份数量-朋友圈问题" class="headerlink" title="1. 省份数量(朋友圈问题)"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/number-of-provinces/">1. 省份数量(朋友圈问题)</a></strong></h4><p>There are <code>n</code> cities. Some of them are connected, while some are not. If city <code>a</code> is connected directly with city <code>b</code>, and city <code>b</code> is connected directly with city <code>c</code>, then city <code>a</code> is connected indirectly with city <code>c</code>.</p>
+<p>A <strong>province</strong> is a group of directly or indirectly connected cities and no other cities outside of the group.</p>
+<p>You are given an <code>n x n</code> matrix <code>isConnected</code> where <code>isConnected[i][j] = 1</code> if the <code>ith</code> city and the <code>jth</code> city are directly connected, and <code>isConnected[i][j] = 0</code> otherwise.</p>
+<p>Return <em>the total number of <strong>provinces</strong></em>.</p>
+<p> <strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/24/graph1.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/12/24/graph2.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: isConnected = [[1,0,0],[0,1,0],[0,0,1]]</span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= n &lt;= 200</code></li>
+<li><code>n == isConnected.length</code></li>
+<li><code>n == isConnected[i].length</code></li>
+<li><code>isConnected[i][j]</code> is <code>1</code> or <code>0</code>.</li>
+<li><code>isConnected[i][i] == 1</code></li>
+<li><code>isConnected[i][j] == isConnected[j][i]</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findCircleNum</span><span class="params">(<span class="keyword">int</span>[][] M)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = M.length;</span><br><span class="line">    UnionFind uf = <span class="keyword">new</span> UnionFind(len);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; len; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (M[i][j] == <span class="number">1</span>) &#123;</span><br><span class="line">                uf.union(i, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> uf.count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-冗余连接"><a href="#2-冗余连接" class="headerlink" title="2. 冗余连接"></a><strong>2. <a target="_blank" rel="noopener" href="https://leetcode.com/problems/redundant-connection/">冗余连接</a></strong></h4><p>In this problem, a tree is an <strong>undirected graph</strong> that is connected and has no cycles.</p>
+<p>You are given a graph that started as a tree with <code>n</code> nodes labeled from <code>1</code> to <code>n</code>, with one additional edge added. The added edge has two <strong>different</strong> vertices chosen from <code>1</code> to <code>n</code>, and was not an edge that already existed. The graph is represented as an array <code>edges</code> of length <code>n</code> where <code>edges[i] = [ai, bi]</code> indicates that there is an edge between nodes <code>ai</code> and <code>bi</code> in the graph.</p>
+<p>Return <em>an edge that can be removed so that the resulting graph is a tree of</em> <code>n</code> <em>nodes</em>. If there are multiple answers, return the answer that occurs last in the input.</p>
+<p><strong>Example 1:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/05/02/reduntant1-1-graph.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: edges = [[1,2],[1,3],[2,3]]</span><br><span class="line">Output: [2,3]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/05/02/reduntant1-2-graph.jpg" alt="img"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: edges = [[1,2],[2,3],[3,4],[1,4],[1,5]]</span><br><span class="line">Output: [1,4]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>n == edges.length</code></li>
+<li><code>3 &lt;= n &lt;= 1000</code></li>
+<li><code>edges[i].length == 2</code></li>
+<li><code>1 &lt;= ai &lt; bi &lt;= edges.length</code></li>
+<li><code>ai != bi</code></li>
+<li>There are no repeated edges.</li>
+<li>The given graph is connected.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findRedundantConnection(<span class="keyword">int</span>[][] edges) &#123;</span><br><span class="line">        <span class="keyword">int</span> n = edges.length;</span><br><span class="line">        UnionFind uf = <span class="keyword">new</span> UnionFind(n + <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span>[] edge: edges)&#123;</span><br><span class="line">            <span class="keyword">if</span>(uf.find(edge[<span class="number">0</span>]) != uf.find(edge[<span class="number">1</span>]))&#123;</span><br><span class="line">                uf.union(edge[<span class="number">0</span>], edge[<span class="number">1</span>]);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> edge;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">UnionFind</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> count;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span>[] parent;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span>[] rank;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">UnionFind</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">            count = n;</span><br><span class="line">            parent = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">            rank = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">                parent[i] = i;</span><br><span class="line">                rank[i] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> rootX = find(x);</span><br><span class="line">            <span class="keyword">int</span> rootY = find(y);</span><br><span class="line">            <span class="keyword">if</span> (rootX == rootY) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (rank[rootX] &gt; rank[rootY]) &#123;</span><br><span class="line">                parent[rootY] = rootX;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (rank[rootX] &lt; rank[rootY]) &#123;</span><br><span class="line">                parent[rootX] = rootY;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                parent[rootY] = rootX;</span><br><span class="line">                rank[rootX]++;</span><br><span class="line">            &#125;</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (parent[x] != x) &#123;</span><br><span class="line">                x = parent[x];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> x;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isConnected</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> find(x) == find(y);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> count;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-账号合并"><a href="#3-账号合并" class="headerlink" title="3. 账号合并"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/accounts-merge/">3. 账号合并</a></strong></h4><p>Given a list of <code>accounts</code> where each element <code>accounts[i]</code> is a list of strings, where the first element <code>accounts[i][0]</code> is a name, and the rest of the elements are <strong>emails</strong> representing emails of the account.</p>
+<p>Now, we would like to merge these accounts. Two accounts definitely belong to the same person if there is some common email to both accounts. Note that even if two accounts have the same name, they may belong to different people as people could have the same name. A person can have any number of accounts initially, but all of their accounts definitely have the same name.</p>
+<p>After merging the accounts, return the accounts in the following format: the first element of each account is the name, and the rest of the elements are emails <strong>in sorted order</strong>. The accounts themselves can be returned in <strong>any order</strong>.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: accounts = [[&quot;John&quot;,&quot;johnsmith@mail.com&quot;,&quot;john_newyork@mail.com&quot;],[&quot;John&quot;,&quot;johnsmith@mail.com&quot;,&quot;john00@mail.com&quot;],[&quot;Mary&quot;,&quot;mary@mail.com&quot;],[&quot;John&quot;,&quot;johnnybravo@mail.com&quot;]]</span><br><span class="line">Output: [[&quot;John&quot;,&quot;john00@mail.com&quot;,&quot;john_newyork@mail.com&quot;,&quot;johnsmith@mail.com&quot;],[&quot;Mary&quot;,&quot;mary@mail.com&quot;],[&quot;John&quot;,&quot;johnnybravo@mail.com&quot;]]</span><br><span class="line">Explanation:</span><br><span class="line">The first and third John&#x27;s are the same person as they have the common email &quot;johnsmith@mail.com&quot;.</span><br><span class="line">The second John and Mary are different people as none of their email addresses are used by other accounts.</span><br><span class="line">We could return these lists in any order, for example the answer [[&#x27;Mary&#x27;, &#x27;mary@mail.com&#x27;], [&#x27;John&#x27;, &#x27;johnnybravo@mail.com&#x27;], </span><br><span class="line">[&#x27;John&#x27;, &#x27;john00@mail.com&#x27;, &#x27;john_newyork@mail.com&#x27;, &#x27;johnsmith@mail.com&#x27;]] would still be accepted.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: accounts = [[&quot;Gabe&quot;,&quot;Gabe0@m.co&quot;,&quot;Gabe3@m.co&quot;,&quot;Gabe1@m.co&quot;],[&quot;Kevin&quot;,&quot;Kevin3@m.co&quot;,&quot;Kevin5@m.co&quot;,&quot;Kevin0@m.co&quot;],[&quot;Ethan&quot;,&quot;Ethan5@m.co&quot;,&quot;Ethan4@m.co&quot;,&quot;Ethan0@m.co&quot;],[&quot;Hanzo&quot;,&quot;Hanzo3@m.co&quot;,&quot;Hanzo1@m.co&quot;,&quot;Hanzo0@m.co&quot;],[&quot;Fern&quot;,&quot;Fern5@m.co&quot;,&quot;Fern1@m.co&quot;,&quot;Fern0@m.co&quot;]]</span><br><span class="line">Output: [[&quot;Ethan&quot;,&quot;Ethan0@m.co&quot;,&quot;Ethan4@m.co&quot;,&quot;Ethan5@m.co&quot;],[&quot;Gabe&quot;,&quot;Gabe0@m.co&quot;,&quot;Gabe1@m.co&quot;,&quot;Gabe3@m.co&quot;],[&quot;Hanzo&quot;,&quot;Hanzo0@m.co&quot;,&quot;Hanzo1@m.co&quot;,&quot;Hanzo3@m.co&quot;],[&quot;Kevin&quot;,&quot;Kevin0@m.co&quot;,&quot;Kevin3@m.co&quot;,&quot;Kevin5@m.co&quot;],[&quot;Fern&quot;,&quot;Fern0@m.co&quot;,&quot;Fern1@m.co&quot;,&quot;Fern5@m.co&quot;]]</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= accounts.length &lt;= 1000</code></li>
+<li><code>2 &lt;= accounts[i].length &lt;= 10</code></li>
+<li><code>1 &lt;= accounts[i][j] &lt;= 30</code></li>
+<li><code>accounts[i][0]</code> consists of English letters.</li>
+<li><code>accounts[i][j] (for j &gt; 0)</code> is a valid email.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; accountsMerge(List&lt;List&lt;String&gt;&gt; accounts) &#123;</span><br><span class="line">    List&lt;List&lt;String&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="comment">// 建立email与index之间的映射关系</span></span><br><span class="line">    Map&lt;String, Integer&gt; emailIndexMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="comment">// 建立索引与并查集之间的映射关系</span></span><br><span class="line">    Map&lt;Integer, Set&lt;String&gt;&gt; indexEmailsMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="comment">// 并查集初始化，主要是建立并查集元素的初始化数量</span></span><br><span class="line">    UnionFind uf = <span class="keyword">new</span> UnionFind(accounts.size());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; accounts.size(); i++)&#123;</span><br><span class="line">        List&lt;String&gt; list = accounts.get(i);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; list.size(); j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(emailIndexMap.containsKey(list.get(j)))&#123;</span><br><span class="line">                uf.union(i, emailIndexMap.get(list.get(j)));</span><br><span class="line">            &#125;</span><br><span class="line">            emailIndexMap.put(list.get(j), i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; accounts.size(); i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> index = uf.find(i);</span><br><span class="line">        List&lt;String&gt; accountList = accounts.get(i);</span><br><span class="line">        List&lt;String&gt; emailList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        emailList = accounts.get(index).subList(<span class="number">1</span>, accountList.size());</span><br><span class="line">        <span class="keyword">if</span>(indexEmailMap.containsKey(index))&#123;</span><br><span class="line">            indexEmailMap.get(index).addAll(emailList);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            indexEamilMap.put(index, <span class="keyword">new</span> TreeSet&lt;&gt;(eamilList));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(Map.Entry&lt;Integer, Set&lt;String&gt;&gt;entry : indexEmailsMap.entrySet())&#123;</span><br><span class="line">        <span class="keyword">int</span> index = entry.getKey();</span><br><span class="line">        List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(accounts.get(index).get(<span class="number">0</span>));</span><br><span class="line">        list.addAll(entry.getValue());</span><br><span class="line">        result.add(list);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"> 	 <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-满足等式方程检查"><a href="#4-满足等式方程检查" class="headerlink" title="4. 满足等式方程检查"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/satisfiability-of-equality-equations/"><strong>4. 满足等式方程检查</strong></a></h4><p>You are given an array of strings <code>equations</code> that represent relationships between variables where each string <code>equations[i]</code> is of length <code>4</code> and takes one of two different forms: <code>&quot;xi==yi&quot;</code> or <code>&quot;xi!=yi&quot;</code>.Here, <code>xi</code> and <code>yi</code> are lowercase letters (not necessarily different) that represent one-letter variable names.</p>
+<p>Return <code>true</code> <em>if it is possible to assign integers to variable names so as to satisfy all the given equations, or</em> <code>false</code> <em>otherwise</em>.</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: equations = [&quot;a==b&quot;,&quot;b!=a&quot;]</span><br><span class="line">Output: false</span><br><span class="line">Explanation: If we assign say, a = 1 and b = 1, then the first equation is satisfied, but not the second.</span><br><span class="line">There is no way to assign the variables to satisfy both equations.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: equations = [&quot;b==a&quot;,&quot;a==b&quot;]</span><br><span class="line">Output: true</span><br><span class="line">Explanation: We could assign a = 1 and b = 1 to satisfy both equations.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: equations = [&quot;a==b&quot;,&quot;b==c&quot;,&quot;a==c&quot;]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 4:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: equations = [&quot;a==b&quot;,&quot;b!=c&quot;,&quot;c==a&quot;]</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 5:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: equations = [&quot;c==c&quot;,&quot;b==d&quot;,&quot;x!=z&quot;]</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= equations.length &lt;= 500</code></li>
+<li><code>equations[i].length == 4</code></li>
+<li><code>equations[i][0]</code> is a lowercase letter.</li>
+<li><code>equations[i][1]</code> is either <code>&#39;=&#39;</code> or <code>&#39;!&#39;</code>.</li>
+<li><code>equations[i][2]</code> is <code>&#39;=&#39;</code>.</li>
+<li><code>equations[i][3]</code> is a lowercase letter.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equationsPossible</span><span class="params">(String[] equations)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 共有26个小写字母，可能有26种情况</span></span><br><span class="line">    UnionFind uf = <span class="keyword">new</span> UnionFind(<span class="number">26</span>);</span><br><span class="line">    <span class="comment">// 遍历，对于相等的串将首尾字母合并</span></span><br><span class="line">    <span class="keyword">for</span>(String equation : equations)&#123;</span><br><span class="line">        <span class="keyword">if</span>(equation.charAt(<span class="number">1</span>) == <span class="string">&#x27;=&#x27;</span>)&#123;</span><br><span class="line">            uf.union(equation.charAt(<span class="number">0</span>) - <span class="string">&#x27;a&#x27;</span>, equation.charAt(<span class="number">3</span>) - <span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 遍历，如果为不等式，且首尾字母属于同一集合，则该等式不成立</span></span><br><span class="line">    <span class="keyword">for</span>(String equation: equations)&#123;</span><br><span class="line">        <span class="keyword">if</span>(equation.charAt(<span class="number">1</span>) == <span class="string">&#x27;!&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(uf.isConnected(equation.charAt(<span class="number">0</span>) - <span class="string">&#x27;a&#x27;</span>, equation.charAt(<span class="number">3</span>) - <span class="string">&#x27;a&#x27;</span>))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="5-最小交换字符串"><a href="#5-最小交换字符串" class="headerlink" title="5. 最小交换字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.com/problems/smallest-string-with-swaps/"><strong>5. 最小交换字符串</strong></a></h4><p>You are given a string <code>s</code>, and an array of pairs of indices in the string <code>pairs</code> where <code>pairs[i] = [a, b]</code> indicates 2 indices(0-indexed) of the string.</p>
+<p>You can swap the characters at any pair of indices in the given <code>pairs</code> <strong>any number of times</strong>.</p>
+<p>Return the lexicographically smallest string that <code>s</code> can be changed to after using the swaps.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;dcab&quot;, pairs = [[0,3],[1,2]]</span><br><span class="line">Output: &quot;bacd&quot;</span><br><span class="line">Explaination: </span><br><span class="line">Swap s[0] and s[3], s = &quot;bcad&quot;</span><br><span class="line">Swap s[1] and s[2], s = &quot;bacd&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;dcab&quot;, pairs = [[0,3],[1,2],[0,2]]</span><br><span class="line">Output: &quot;abcd&quot;</span><br><span class="line">Explaination: </span><br><span class="line">Swap s[0] and s[3], s = &quot;bcad&quot;</span><br><span class="line">Swap s[0] and s[2], s = &quot;acbd&quot;</span><br><span class="line">Swap s[1] and s[2], s = &quot;abcd&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 3:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Input: s = &quot;cba&quot;, pairs = [[0,1],[1,2]]</span><br><span class="line">Output: &quot;abc&quot;</span><br><span class="line">Explaination: </span><br><span class="line">Swap s[0] and s[1], s = &quot;bca&quot;</span><br><span class="line">Swap s[1] and s[2], s = &quot;bac&quot;</span><br><span class="line">Swap s[0] and s[1], s = &quot;abc&quot;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
+<li><code>0 &lt;= pairs.length &lt;= 10^5</code></li>
+<li><code>0 &lt;= pairs[i][0], pairs[i][1] &lt; s.length</code></li>
+<li><code>s</code> only contains lower case English letters.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">smallestStringWithSwaps</span><span class="params">(String s, List&lt;List&lt;Integer&gt;&gt; pairs)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 字符串长度最大为10^5</span></span><br><span class="line">    UnionFind uf = <span class="keyword">new</span> UnionFind(<span class="number">100000</span>);</span><br><span class="line">    <span class="comment">// 合并构建并查集</span></span><br><span class="line">    <span class="keyword">for</span>(List list: pairs)&#123;</span><br><span class="line">        uf.union(list.get(<span class="number">0</span>), list.get(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构建集合对应MAP</span></span><br><span class="line">    Map&lt;Integer， PriorityQueue&lt;Character&gt;&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> index = uf.find(i);</span><br><span class="line">        map.putIfAbsent(index, <span class="keyword">new</span> PriorityQueue&lt;&gt;());</span><br><span class="line">        map.get(index).offer(s.charAt(i));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 对map处理，得到返回结果</span></span><br><span class="line">    StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length; i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> index = uf.find(i);</span><br><span class="line">        sb.append(map.get(index).poll());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sb.toString();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-岛屿数量"><a href="#6-岛屿数量" class="headerlink" title="6. 岛屿数量"></a><strong><a target="_blank" rel="noopener" href="https://leetcode.com/problems/number-of-islands/">6. 岛屿数量</a></strong></h4><p>Given an <code>m x n</code> 2D binary grid <code>grid</code> which represents a map of <code>&#39;1&#39;</code>s (land) and <code>&#39;0&#39;</code>s (water), return <em>the number of islands</em>.</p>
+<p>An <strong>island</strong> is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.</p>
+<p> <strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: grid = [</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;0&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;]</span><br><span class="line">]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: grid = [</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;1&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;0&quot;,&quot;0&quot;],</span><br><span class="line">  [&quot;0&quot;,&quot;0&quot;,&quot;0&quot;,&quot;1&quot;,&quot;1&quot;]</span><br><span class="line">]</span><br><span class="line">Output: 3</span><br></pre></td></tr></table></figure>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>m == grid.length</code></li>
+<li><code>n == grid[i].length</code></li>
+<li><code>1 &lt;= m, n &lt;= 300</code></li>
+<li><code>grid[i][j]</code> is <code>&#39;0&#39;</code> or <code>&#39;1&#39;</code>.</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 表示top-&gt;right-&gt;bottom-&gt;left</span></span><br><span class="line"><span class="keyword">int</span>[][] direction = &#123;&#123;<span class="number">0</span>, <span class="number">1</span>&#125;, &#123;<span class="number">1</span>, <span class="number">0</span>&#125;, &#123;<span class="number">0</span>, -<span class="number">1</span>&#125;, &#123;-<span class="number">1</span>, <span class="number">0</span>&#125;&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numIslands</span><span class="params">(<span class="keyword">char</span>[][] grid)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m = grid.length;</span><br><span class="line">    <span class="keyword">int</span> n = grid[<span class="number">0</span>].length;</span><br><span class="line">    </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(grid[i][j] == <span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span>[] arr: direction)&#123;</span><br><span class="line">                    <span class="keyword">int</span> x = arr[<span class="number">0</span>] + i;</span><br><span class="line">                    <span class="keyword">int</span> y = arr[<span class="number">1</span>] + j;</span><br><span class="line">                    <span class="keyword">if</span>(x &gt;= <span class="number">0</span> &amp;&amp; x &lt; m &amp;&amp; y &gt;= <span class="number">0</span> &amp;&amp; y &lt; n &amp;&amp; grid[x][y] == <span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">                        <span class="keyword">int</span> index1 = i * n + j;</span><br><span class="line">                        <span class="keyword">int</span> index2 = x * n + y;</span><br><span class="line">                        uf.union(index1, index2);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> uf.count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 并查集方式</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UnionFind</span></span>&#123;</span><br><span class="line">    <span class="comment">// 并查集每个集合代表元，初始化m*n个元素</span></span><br><span class="line">    <span class="keyword">int</span>[] rep;</span><br><span class="line">    <span class="comment">// 数组行数</span></span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    <span class="comment">// 数组列数</span></span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="comment">// 并查集中集合数量</span></span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    </span><br><span class="line">    UnionFind(<span class="keyword">char</span>[][] grid)&#123;</span><br><span class="line">        m = grid.length;</span><br><span class="line">        n = grid[<span class="number">0</span>].length;</span><br><span class="line">        rep = <span class="keyword">new</span> <span class="keyword">int</span>[m * n];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n; j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(grid[i][j] == <span class="string">&#x27;1&#x27;</span>)&#123;</span><br><span class="line">                    <span class="comment">// 将二维数组压缩为一维数组</span></span><br><span class="line">                    <span class="keyword">int</span> index = i * n + j;</span><br><span class="line">                    rep[index] = index;</span><br><span class="line">                    count++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> repU = find(u);</span><br><span class="line">        <span class="keyword">int</span> repV = find(v);</span><br><span class="line">        <span class="keyword">if</span>(repU != repV)&#123;</span><br><span class="line">            rep[repV] = repU;</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> u)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(rep[u] != u)&#123;</span><br><span class="line">            rep[u] = find(rep[u]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> rep[u];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/12/4monotic_stack/" rel="prev" title="4monotic_stack">
+                  <i class="fa fa-chevron-left"></i> 4monotic_stack
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/17/l01_lnmp_conf/" rel="next" title="l01_lnmp_conf">
+                  l01_lnmp_conf <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fqyuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
